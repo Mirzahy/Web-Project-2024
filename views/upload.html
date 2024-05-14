@@ -9,7 +9,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            /* Gradient background */
             background: linear-gradient(to right, #74ebd5, #acb6e5);
             display: flex;
             justify-content: center;
@@ -22,8 +21,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            width: 90%; /* Adjusted to take more width */
-            max-width: none; /* Removes the max-width restriction */
+            width: 90%;
         }
         h1 {
             color: #333;
@@ -35,16 +33,18 @@
             margin-bottom: 5px;
             color: #666;
         }
-        input[type="file"],
         input[type="text"],
         input[type="number"],
         textarea {
-            width: calc(100% - 16px); /* Adjusted to account for padding */
+            width: calc(100% - 16px);
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
         }
         button {
             width: 100%;
@@ -62,21 +62,43 @@
     </style>
 </head>
 <body>
-    <form action="/upload" method="post" enctype="multipart/form-data">
+    <form id="propertyForm">
         <h1>Upload Your Property</h1>
-        <label for="propertyImage">Upload Image:</label>
-        <input type="file" id="propertyImage" name="propertyImage" accept="image/*" required>
         
         <label for="propertyName">Property Name:</label>
-        <input type="text" id="propertyName" name="propertyName" placeholder="Enter property name" required>
+        <input type="text" id="propertyName" name="Name" placeholder="Enter property name" required>
         
         <label for="propertyDescription">Property Description:</label>
-        <textarea id="propertyDescription" name="propertyDescription" rows="4" placeholder="Describe the property" required></textarea>
+        <textarea id="propertyDescription" name="Description" rows="4" placeholder="Describe the property" required></textarea>
         
         <label for="propertyPrice">Asking Price:</label>
-        <input type="number" id="propertyPrice" name="propertyPrice" placeholder="Enter asking price" required>
+        <input type="number" id="propertyPrice" name="Price" placeholder="Enter asking price" required>
         
-        <button type="submit">Upload Property</button>
+        <button type="button" id="uploadBtn">Upload Property</button>
     </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#uploadBtn").click(function() {
+                var data = {
+                    Name: $("#propertyName").val(),
+                    Description: $("#propertyDescription").val(),
+                    Price: $("#propertyPrice").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/Web-Project-2024/backend/add_property.php", 
+                    data: data,
+                    success: function(response) {
+                        alert("Property uploaded successfully!");
+                    },
+                    error: function() {
+                        alert("Error uploading property.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

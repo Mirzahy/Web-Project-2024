@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../config.php";
+require_once __DIR__ . "/../config.php";
 
 
 class BaseDao {
@@ -24,6 +24,11 @@ class BaseDao {
         }
     }
 
+    protected function query_without_param($query) {
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     protected function query($query, $params) {
         $statement = $this->connection->prepare($query);

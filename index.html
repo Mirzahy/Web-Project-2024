@@ -15,6 +15,10 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 
+  <script src="assets/js/jquery.min.js"></script>
+
+  <script src="assets/js/jquery.spapp.js"></script>
+  <script src="assets/js/jquery.spapp.min.js"></script>
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -24,10 +28,6 @@
   <link href="assets/css/spapp.css" rel="stylesheet">
 
 
-  <script src="assets/js/jquery.min.js"></script>
-
-  <script src="assets/js/jquery.spapp.js"></script>
-  <script src="assets/js/jquery.spapp.min.js"></script>
   
 
 
@@ -52,7 +52,9 @@
       </ul>
     </div>
     <a href="#login"><button type="button" class="login" style="margin-right: 10px;">Login</button></a>
-    <a href="#register"><button type="button" class="login">Register</button></a>
+    <a href="#register"><button type="button" class="login ">Register</button></a>
+    <a href="#admin"><button type="button" class="Admin" style="margin-right: 10px;">Admin</button></a>
+
     
   </div>
 </nav><!-- End Header/Navbar -->
@@ -66,7 +68,9 @@
   <section id="login" data-load="LOGIN.html"></section>
   <section id="single" data-load="property-single.html"></section>
   <section id="register" data-load="register.html"></section>
+  <section id="admin" data-load="admin.html"></section>
 </main>
+
 
 
 <!-- Vendor JS Files -->
@@ -86,7 +90,9 @@
     view: "home",
     load: "homepage.html",
     onCreate: function() {},
-    onReady: function() {},
+    onReady: function() {
+      
+    },
   });
 
 

@@ -12,27 +12,71 @@
  <body>
   
   <div class="wrapper">
-    <form action="LOGIN.html"> <!-- Directly set the action to index.html -->
+    <form id="registerForm"> <!-- Directly set the action to index.html -->
       <h1>REGISTER</h1>
       <div class="input-box">
-        <input type="text" placeholder="Username" required>
-        <i class='bx bxs-user'></i>
+          <input type="text" name="username" id="username" placeholder="username" required>
+          <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
-        <input type="text" placeholder="Email" required>
-        <i class='bx bxs-user'></i>
+          <input type="text" name="email" id="email" placeholder="Email" required>
+          <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" required>
-        <i class='bx bxs-lock-alt' ></i>
+          <input type="password" name="password" id="password" placeholder="Password" required>
+          <i class='bx bxs-lock-alt' ></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Confirm Password" required>
-        <i class='bx bxs-lock-alt' ></i>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+          <i class='bx bxs-lock-alt' ></i>
       </div>
-      <button type="submit" class="btn">Register</button>
-      <a href="LOGIN.html">
-    </form>
+      <button type="button" id="registerBtn" class="btn">Register</button>
+      <!-- <a href="LOGIN.html">Login</a> -->
+  </form>
+
+  <script>
+    
+      $(document).ready(function(){
+          $("#registerBtn").click(function(e){
+              e.preventDefault(); // Prevent the default form submission
+              
+              // Get form data
+              var username = $("#username").val();
+              var email = $("#email").val();
+              var password = $("#password").val();
+              var confirmPassword = $("#confirmPassword").val();
+              
+              // Perform basic validation
+              if(password !== confirmPassword) {
+                  alert("Passwords do not match.");
+                  return;
+              }
+              
+              // Create form data object
+              var formData = {
+                  username: username,
+                  email: email,
+                  password: password
+              };
+
+              // Send AJAX request
+              $.ajax({
+                  url: "http://localhost/Web-Project-2024/backend/add_user.php", 
+                  type: "POST",
+                  data: formData,
+                  success: function(response) {
+                      
+                      console.log(response);
+                   
+                  },
+                  error: function(xhr, status, error) {
+                      // Handle error
+                      console.error(xhr.responseText);
+                  }
+              });
+          });
+      });
+  </script>
   </div>
 </body>
 </html>

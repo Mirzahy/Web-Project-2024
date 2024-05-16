@@ -24,6 +24,12 @@ class UserDao extends BaseDao
             'search' => strtolower($search)
         ]);
     }
+    public function get_users(){
+      
+            $query = "SELECT * FROM users";
+            return $this->query_without_param($query);
+        
+    }
     
     public function get_users_paginated($offset, $limit, $search, $order_column, $order_direction) {
         $valid_columns = ['username', 'email']; // These are the columns you can sort by
@@ -48,7 +54,7 @@ class UserDao extends BaseDao
 
     
     public function delete_user($user_id) {
-        $query = "DELETE FROM users WHERE user_id = :user_id";
+        $query = "DELETE FROM users WHERE idUsers = :user_id";
         $this->execute($query, [
             'user_id' => $user_id
         ]);

@@ -13,6 +13,10 @@ class AgentService {
         return $this->agent_dao->addAgent($agent);
     }
 
+    public function get_agents() {
+        return $this->agent_dao->get_all();
+    }
+
     public function get_agents_paginated($offset, $limit, $search, $order_column, $order_direction) {
         $count = $this->agent_dao->count_agents_paginated($search)['count'];
         $rows = $this->agent_dao->get_agents_paginated($offset, $limit, $search, $order_column, $order_direction);
@@ -34,6 +38,4 @@ class AgentService {
     public function edit_agent($idagents, $agent) {
         $this->agent_dao->edit_agent($idagents, $agent);
     }
-
 }
-

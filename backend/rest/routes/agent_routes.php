@@ -63,7 +63,6 @@ Flight::group('/agents', function() {
      *         description="Agent deleted",
      *         @OA\JsonContent(type="object", @OA\Property(property="message", type="string"))
      *     )
-     * )
      */
     Flight::route('DELETE /@id', function($id) {
         $agent_service = Flight::get('agent_service');
@@ -73,13 +72,8 @@ Flight::group('/agents', function() {
             return;
         }
 
-        $result = $agent_service->delete_agent($id);
-
-        if ($result['success']) {
-            Flight::json(['message' => 'You have successfully deleted the agent!']);
-        } else {
-            Flight::json(['error' => 'No agent found with that ID.'], 404);
-        }
+        $agent_service->delete_agent($id);
+        Flight::json(['message' => 'Agent deleted successfully!']);
     });
 
     /**
@@ -102,7 +96,6 @@ Flight::group('/agents', function() {
      *         description="Agent updated",
      *         @OA\JsonContent(type="object", @OA\Property(property="success", type="string"))
      *     )
-     * )
      */
     Flight::route('POST /@id', function($id) {
         $agent_service = Flight::get('agent_service');
@@ -161,6 +154,3 @@ Flight::group('/agents', function() {
  *     @OA\Property(property="email", type="string")
  * )
  */
-
-// Start Flight
-Flight::start();

@@ -34,10 +34,10 @@
       <!-- <a href="LOGIN.html">Login</a> -->
   </form>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    
-      $(document).ready(function(){
-          $("#registerBtn").click(function(e){
+      $(document).ready(function() {
+          $("#registerBtn").click(function(e) {
               e.preventDefault(); // Prevent the default form submission
               
               // Get form data
@@ -47,7 +47,7 @@
               var confirmPassword = $("#confirmPassword").val();
               
               // Perform basic validation
-              if(password !== confirmPassword) {
+              if (password !== confirmPassword) {
                   alert("Passwords do not match.");
                   return;
               }
@@ -58,16 +58,16 @@
                   email: email,
                   password: password
               };
-
+  
               // Send AJAX request
               $.ajax({
-                  url: "http://localhost/Web-Project-2024/backend/add_user.php", 
-                  type: "POST",
-                  data: formData,
+                  url: "http://localhost/Web-Project-2024/backend/users/",
+                  type: "POST", // Use POST method for inserting data
+                  contentType: "application/json",
+                  data: JSON.stringify(formData),
                   success: function(response) {
-                      
                       console.log(response);
-                   
+                      alert("User registered successfully!");
                   },
                   error: function(xhr, status, error) {
                       // Handle error

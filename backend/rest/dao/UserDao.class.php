@@ -58,6 +58,7 @@ class UserDao extends BaseDao
         $this->execute($query, [
             'user_id' => $user_id
         ]);
+        return true;
     }
     
 

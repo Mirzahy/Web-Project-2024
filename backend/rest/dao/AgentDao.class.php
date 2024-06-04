@@ -73,5 +73,7 @@ class AgentDao extends BaseDao
         ]);
     }
 
-    
+    public function get_all() {
+        return $this->query("SELECT * FROM agents", []);
+    }
 }

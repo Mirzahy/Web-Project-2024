@@ -21,13 +21,6 @@ Flight::group('/properties', function() {
     Flight::route('GET /', function() {
         $property_service = Flight::get('property_service');
         $data = $property_service->get_properties();
-
-        foreach ($data as $id => $property) {
-            $data[$id]['action'] = 
-            '<button class="btn btn-primary" onclick="PropertyService.open_edit_property_modal(' . $property['idproperties'] . ')">Edit</button>
-            <button class="btn btn-danger" onclick="PropertyService.delete_property(' . $property['idproperties'] . ')">Delete</button>';
-        }
-
         Flight::json(['data' => $data]);
     });
 
@@ -50,8 +43,14 @@ Flight::group('/properties', function() {
     Flight::route('POST /', function() {
         $property_service = Flight::get('property_service');
         $payload = Flight::request()->data->getData();
-        $property = $property_service->addProperty($payload);
-        Flight::json(['message' => "Property added!", 'data' => $property], 201);
+
+        // Handle Base64 image data
+        if (isset($payload['Image'])) {
+            $property = $property_service->addProperty($payload, $payload['Image']);
+            Flight::json(['message' => "Property added!", 'data' => $property], 201);
+        } else {
+            Flight::json(['error' => 'Image data is missing.'], 400);
+        }
     });
 
     /**
@@ -114,16 +113,18 @@ Flight::group('/properties', function() {
     Flight::route('POST /@id', function($id) {
         $property_service = Flight::get('property_service');
         $payload = Flight::request()->data->getData();
-
-        if (!empty($id)) {
-            try {
-                $property_service->edit_property($id, $payload);
-                Flight::json(['success' => 'Property has been updated successfully']);
-            } catch (Exception $e) {
-                Flight::json(['error' => $e->getMessage()], 500);
+    
+        try {
+            // Handle Base64 image data
+            if (isset($payload['Image'])) {
+                $property = $property_service->updateProperty($id, $payload, $payload['Image']);
+                Flight::json(['message' => "Property updated!", 'data' => $property]);
+            } else {
+                Flight::json(['error' => 'Image data is missing.'], 400);
             }
-        } else {
-            Flight::json(['error' => 'Bad request'], 400);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            Flight::json(['error' => 'Internal Server Error'], 500);
         }
     });
 
@@ -161,13 +162,11 @@ Flight::group('/properties', function() {
  * @OA\Schema(
  *     schema="Property",
  *     type="object",
- *     required={"Name", "Description", "Price"},
+ *     required={"Name", "Description", "Price", "Image"},
  *     @OA\Property(property="idproperties", type="integer", readOnly=true),
  *     @OA\Property(property="Name", type="string"),
  *     @OA\Property(property="Description", type="string"),
- *     @OA\Property(property="Price", type="number")
+ *     @OA\Property(property="Price", type="number"),
+ *     @OA\Property(property="Image", type="string")
  * )
  */
-
-// Start Flight
-Flight::start();

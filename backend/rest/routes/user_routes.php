@@ -104,21 +104,21 @@ Flight::group('/users', function() {
      *     )
      * )
      */
-    Flight::route('POST /@id', function($id) {
-        $user_service = Flight::get('user_service');
-        $payload = Flight::request()->data->getData();
+    // Flight::route('POST /@id', function($id) {
+    //     $user_service = Flight::get('user_service');
+    //     $payload = Flight::request()->data->getData();
 
-        if (!empty($id)) {
-            try {
-                $user_service->edit_user($id, $payload);
-                Flight::json(['success' => 'User has been updated successfully']);
-            } catch (Exception $e) {
-                Flight::json(['error' => $e->getMessage()], 500);
-            }
-        } else {
-            Flight::json(['error' => 'Bad request'], 400);
-        }
-    });
+    //     if (!empty($id)) {
+    //         try {
+    //             $user_service->edit_user($id, $payload);
+    //             Flight::json(['success' => 'User has been updated successfully']);
+    //         } catch (Exception $e) {
+    //             Flight::json(['error' => $e->getMessage()], 500);
+    //         }
+    //     } else {
+    //         Flight::json(['error' => 'Bad request'], 400);
+    //     }
+    // });
 
     /**
      * @OA\Get(
@@ -163,4 +163,3 @@ Flight::group('/users', function() {
  */
 
 // Start Flight
-Flight::start();

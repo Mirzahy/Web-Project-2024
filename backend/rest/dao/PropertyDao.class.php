@@ -2,17 +2,18 @@
 
 require_once __DIR__ . "/BaseDao.class.php";
 
-class PropertyDao extends BaseDao
-{
+class PropertyDao extends BaseDao {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct("properties");
     }
 
-    public function addProperty($property)
-    {
+    public function addProperty($property) {
         return $this->insert('properties', $property);
+    }
+
+    public function get_all_properties() {
+        return $this->query("SELECT * FROM properties", []);
     }
 
     public function count_properties_paginated($search) {
@@ -62,21 +63,20 @@ class PropertyDao extends BaseDao
         $query  = "UPDATE properties
                    SET name = :name,
                        description = :description,
-                       price = :price
+                       price = :price,
+                       image = :image
                    WHERE idproperties = :id";
         $this->execute($query, [
             'id' => $id, 
             'name' => $property['name'],
             'description' => $property['description'],
-            'price' => $property['price']
+            'price' => $property['price'],
+            'image' => $property['Image']
         ]);
     }
 
-   
     public function get_categories() {
         $query = "SELECT category_id, category_name FROM categories";
         return $this->query($query, []);
     }
-    
-
 }
